@@ -1,0 +1,27 @@
+name: Test Hi Bot
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main  # run only on main branch PRs
+
+jobs:
+  say-hi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Say Hi
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            await github.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: "hi"
+            });
