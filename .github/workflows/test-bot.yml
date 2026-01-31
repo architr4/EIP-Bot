@@ -1,19 +1,22 @@
-name: Test Hi Bot
+name: PR Hi Bot
 
+# Trigger the workflow whenever a PR is opened, reopened, or updated
 on:
   pull_request:
     types: [opened, reopened, synchronize]
     branches:
-      - main  # run only on main branch PRs
+      - main  # adjust if you want it on other branches too
 
 jobs:
   say-hi:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      # Step 1: Checkout the repo (required for GitHub Actions)
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Say Hi
+      # Step 2: Post a comment "hi" to the PR
+      - name: Comment Hi
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
